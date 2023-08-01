@@ -1,31 +1,24 @@
 // DetailsViewModel.swift
 //
-// Copyright © 2023 Stepstone. All rights reserved.
+// Copyright © 2023 Vivek Amirapu. All rights reserved.
 
 import Foundation
 import UIKit
 
-class DetailsViewModel: NSObject {
+class DetailsViewModel {
     
-    let networkService = NetworkService()
-    var dataCache = NSCache<NSString, AnyObject>()
+    var networkService: NetworkServiceProtocol
+    var dataCache: NSCache<NSString, AnyObject>
     var loadAvatar : ((_ image: UIImage) -> ()) = {image in }
     var addLabelsToView : ((_ labels: [UILabel]) -> ()) = {labels in }
-
-    var github: GitUser
-
-    override convenience init() {
-        self.init()
-    }
     
-    init(github: GitUser) {
+    var github: GitUser
+    
+    init(networkService: NetworkService, dataCache: NSCache<NSString, AnyObject>, github: GitUser) {
+        self.networkService = networkService
+        self.dataCache = dataCache
         self.github = github
-        super.init()
-        self.callFuncToGetUserData()
-    }
-
-    public required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        //        self.callFuncToGetUserData()
     }
     
     func callFuncToGetUserData() {
@@ -39,7 +32,7 @@ class DetailsViewModel: NSObject {
             }
         }
         else {
-            AvatarDownloader().downloadAvatar(avatarID: "\(github.id)", size: 4) { result in
+            AvatarDownloader().downloadAvatar(avatarID: "\(github.id)", size: .avatarSize) { result in
                 switch result {
                 case .success(let img):
                     self.dataCache.setObject(img, forKey: String(describing: self.github.id) as NSString)
@@ -52,82 +45,62 @@ class DetailsViewModel: NSObject {
             }
         }
         
-        if let count = self.dataCache.object(forKey: self.github.followers_url as NSString) {
-            // print("followers_url = \(self.github.followers_url) count = \(count)")
-            detailLabels.append(self.makeLabel(text: "Following: \(count)"))
-        } else {
-            dispatchGroup.enter()
-            networkService.get(url: self.github.followers_url, resultType: [GitUser].self) { result in
-                DispatchQueue.main.async {
-                    defer { dispatchGroup.leave() }
-                    switch result {
-                    case .success(let followers):
-                        let count = "\(followers.count)"
-                        self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.followers_url) as NSString)
-                        detailLabels.append(self.makeLabel(text: "Followers: \(count)"))
-                    case .failure:
-                        detailLabels.append(self.makeLabel(text: "Followers: N/A"))
-                    }
+        dispatchGroup.enter()
+        networkService.get(url: self.github.followers_url, resultType: [GitUser].self) { result in
+            DispatchQueue.main.async {
+                defer { dispatchGroup.leave() }
+                switch result {
+                case .success(let followers):
+                    let count = "\(followers.count)"
+                    self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.followers_url) as NSString)
+                    detailLabels.append(self.makeLabel(text: "Followers: \(count)"))
+                case .failure:
+                    detailLabels.append(self.makeLabel(text: "Followers: N/A"))
                 }
             }
         }
         
-        if let count = self.dataCache.object(forKey: self.github.following_url as NSString) {
-            // print("following_url = \(self.github.following_url) count = \(count)")
-            detailLabels.append(self.makeLabel(text: "Following: \(count)"))
-        } else {
-            dispatchGroup.enter()
-            networkService.get(url: self.github.following_url, resultType: [GitUser].self) { result in
-                DispatchQueue.main.async {
-                    defer { dispatchGroup.leave() }
-                    switch result {
-                    case .success(let followers):
-                        let count = "\(followers.count)"
-                        self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.following_url) as NSString)
-                        detailLabels.append(self.makeLabel(text: "Following: \(count)"))
-                    case .failure:
-                        detailLabels.append(self.makeLabel(text: "Following: N/A"))
-                    }
+        dispatchGroup.enter()
+        networkService.get(url: self.github.following_url, resultType: [GitUser].self) { result in
+            DispatchQueue.main.async {
+                defer { dispatchGroup.leave() }
+                switch result {
+                case .success(let followers):
+                    let count = "\(followers.count)"
+                    self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.following_url) as NSString)
+                    detailLabels.append(self.makeLabel(text: "Following: \(count)"))
+                case .failure:
+                    detailLabels.append(self.makeLabel(text: "Following: N/A"))
                 }
             }
         }
         
-        if let count = self.dataCache.object(forKey: self.github.repos_url as NSString) {
-            // print("repos_url = \(self.github.repos_url) count = \(count)")
-            detailLabels.append(self.makeLabel(text: "Repositories count: \(count)"))
-        } else {
-            dispatchGroup.enter()
-            networkService.get(url: self.github.repos_url, resultType: [Repo].self) { result in
-                DispatchQueue.main.async {
-                    defer { dispatchGroup.leave() }
-                    switch result {
-                    case .success(let repositories):
-                        let count = "\(repositories.count)"
-                        self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.repos_url) as NSString)
-                        detailLabels.append(self.makeLabel(text: "Repositories count: \(count)"))
-                    case .failure:
-                        detailLabels.append(self.makeLabel(text: "Repositories count: N/A"))
-                    }
+        dispatchGroup.enter()
+        networkService.get(url: self.github.repos_url, resultType: [Repo].self) { result in
+            DispatchQueue.main.async {
+                defer { dispatchGroup.leave() }
+                switch result {
+                case .success(let repositories):
+                    let count = "\(repositories.count)"
+                    self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.repos_url) as NSString)
+                    detailLabels.append(self.makeLabel(text: "Repositories count: \(count)"))
+                case .failure:
+                    detailLabels.append(self.makeLabel(text: "Repositories count: N/A"))
                 }
             }
         }
         
-        if let count = self.dataCache.object(forKey: self.github.gists_url as NSString) {
-            // print("gists_url = \(self.github.gists_url) count = \(count)")
-            detailLabels.append(self.makeLabel(text: "Gists count: \(count)"))
-        } else {
-            dispatchGroup.enter()
-            networkService.get(url: self.github.gists_url, resultType: [Gist].self) { result in
-                DispatchQueue.main.async {
-                    defer { dispatchGroup.leave() }
-                    switch result {
-                    case .success(let gists):
-                        let count = "\(gists.count)"
-                        self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.gists_url) as NSString)
-                        detailLabels.append(self.makeLabel(text: "Gists count: \(count)"))
-                    case .failure:
-                        detailLabels.append(self.makeLabel(text: "Gists count: N/A"))
-                    }
+        dispatchGroup.enter()
+        networkService.get(url: self.github.gists_url, resultType: [Gist].self) { result in
+            DispatchQueue.main.async {
+                defer { dispatchGroup.leave() }
+                switch result {
+                case .success(let gists):
+                    let count = "\(gists.count)"
+                    self.dataCache.setObject(NSString(string: count), forKey: String(describing: self.github.gists_url) as NSString)
+                    detailLabels.append(self.makeLabel(text: "Gists count: \(count)"))
+                case .failure:
+                    detailLabels.append(self.makeLabel(text: "Gists count: N/A"))
                 }
             }
         }
@@ -135,7 +108,7 @@ class DetailsViewModel: NSObject {
         dispatchGroup.notify(queue: DispatchQueue.main) {
             self.addLabelsToView(detailLabels)
         }
-    }    
+    }
     
     func makeLabel(text: String) -> UILabel {
         let label = UILabel()

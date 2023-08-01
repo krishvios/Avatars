@@ -1,34 +1,72 @@
 // ListViewModel.swift
 //
-// Copyright © 2023 Stepstone. All rights reserved.
+// Copyright © 2023 Vivek Amirapu. All rights reserved.
 
+import Combine
 import Foundation
 
-class ListViewModel: NSObject {
+class ListViewModel {
     
-    let networkService = NetworkService()
-    var dataCache = NSCache<NSString, AnyObject>()
-    var bindListViewModelToController : (() -> ()) = {}
-    var githubUsers = [GitUser]() {
-        didSet {
-            self.bindListViewModelToController()
-        }
+    private var networkService: NetworkServiceProtocol
+    var dataCache: NSCache<NSString, AnyObject>
+    @Published private(set) var avatarCellViewModels: [AvatarCellViewModel] = []
+    
+    // MARK: Output
+    var numberOfRows: Int {
+        avatarCellViewModels.count
     }
     
-    override init() {
-        super.init()
-        callFuncToGetListData()
+    var reloadUsersList: AnyPublisher<Result<Void, NetworkError>, Never> {
+        reloadUsersListSubject.eraseToAnyPublisher()
     }
     
+    private let reloadUsersListSubject = PassthroughSubject<Result<Void, NetworkError>, Never>()
+    
+    private var subscribers: [AnyCancellable] = []
+
+    init(networkService: NetworkService, dataCache: NSCache<NSString, AnyObject>) {
+        self.networkService = networkService
+        self.dataCache = dataCache
+    }
+    
+    @Published var isSubmitAllowed: Bool = false
+    let validationResult = PassthroughSubject<Void, Error>()
+
     func callFuncToGetListData() {
-        networkService.get(url: .githubUsersEndpoint, resultType: [GitUser].self) { result in
+        self.networkService.get(url: .githubUsersEndpoint) { [weak self] result in
             switch result {
-            case .failure:
-                self.githubUsers = []
-            case .success(let users):
-                self.githubUsers = users
+            case .success(let data):
+                do {
+                    let users = try JSONDecoder().decode([GitUser].self, from: data)
+                    self?.fetchData(githubUsers: users)
+                } catch {
+                    print(NetworkError.decode)
+                }
+                self?.validationResult.send(())
+            case let .failure(error):
+                self?.validationResult.send(completion: .failure(error))
             }
         }
+    }
+    
+    func fetchData(githubUsers: [GitUser]) {
+        var vms = [AvatarCellViewModel]()
+        for user in githubUsers {
+            vms.append(createCellModel(user: user))
+        }
+        avatarCellViewModels = vms
+    }
+    
+    func createCellModel(user: GitUser) -> AvatarCellViewModel {
+        let model = AvatarCellViewModel()
+        model.dataCache = self.dataCache
+        model.networkService = self.networkService
+        model.githubUser = user
+        return model
+    }
+    
+    func getCellViewModel(at indexPath: IndexPath) -> AvatarCellViewModel {
+        return avatarCellViewModels[indexPath.row]
     }
     
 }

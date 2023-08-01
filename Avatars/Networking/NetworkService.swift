@@ -4,15 +4,42 @@ import Combine
 
 enum NetworkError: Error {
     case noData
+    case decode
+    
+    var errorDescription: String? {
+        switch self {
+        case .noData: return "Unable to get the data."
+        case .decode: return "Error while decoding the data."
+        }
+    }
 }
 
-class NetworkService {
+
+protocol NetworkServiceProtocol {
+    
+    @discardableResult
+    func get<Object: Codable>(
+        url: String,
+        resultType: Object.Type,
+        completion: @escaping (Result<Object, Error>) -> Void
+    ) -> URLSessionDataTask
+    
+    @discardableResult
+    func get(url: String, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask
+        
+    func get<Object: Codable>(
+        url: String,
+        resultType: Object.Type
+    ) async throws -> Object
+}
+
+
+class NetworkService: NetworkServiceProtocol {
 
     private let session = URLSession.shared
 
     // MARK: - Closures
 
-    @discardableResult
     func get<Object: Codable>(
         url: String,
         resultType: Object.Type = Object.self,
@@ -36,7 +63,6 @@ class NetworkService {
         }
     }
 
-    @discardableResult
     func get(url: String, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask {
         let request = URLRequest(url: URL(string: url)!)
         let task = session.dataTask(with: request) { data, _, error in
@@ -102,4 +128,3 @@ extension NetworkService {
         try await session.data(for: URLRequest(url: URL(string: url)!)).0
     }
 }
-

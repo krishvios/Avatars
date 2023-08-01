@@ -24,6 +24,8 @@
 		C235802A2A474C720077FD73 /* AvatarDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28349C021A84CA400C5CA71 /* AvatarDownloader.swift */; };
 		C235802E2A47B8290077FD73 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C235802D2A47B8290077FD73 /* ListViewModel.swift */; };
 		C23580302A47BC360077FD73 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C235802F2A47BC360077FD73 /* DetailsViewModel.swift */; };
+		C2CEEC222A7921A200DBF5EB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C2CEEC212A7921A200DBF5EB /* README.md */; };
+		C2D73C902A782428008E3CE9 /* AvatarCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D73C8F2A782428008E3CE9 /* AvatarCellViewModel.swift */; };
 		D3C0572A2A0EA887009F6706 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C057292A0EA887009F6706 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		A28349C021A84CA400C5CA71 /* AvatarDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDownloader.swift; sourceTree = "<group>"; };
 		C235802D2A47B8290077FD73 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		C235802F2A47BC360077FD73 /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
+		C2CEEC212A7921A200DBF5EB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		C2D73C8F2A782428008E3CE9 /* AvatarCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarCellViewModel.swift; sourceTree = "<group>"; };
 		D3C057292A0EA887009F6706 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +133,7 @@
 		A283494821A5CDF100C5CA71 /* Avatars */ = {
 			isa = PBXGroup;
 			children = (
+				C2CEEC212A7921A200DBF5EB /* README.md */,
 				C23580332A48284D0077FD73 /* Networking */,
 				C235802C2A47B81B0077FD73 /* List */,
 				C23580292A474B1A0077FD73 /* Details */,
@@ -173,8 +178,8 @@
 		C235802C2A47B81B0077FD73 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				C2D73C912A783056008E3CE9 /* Avatar Cell */,
 				A283494B21A5CDF100C5CA71 /* ListViewController.swift */,
-				A283497721A5D35300C5CA71 /* AvatarCell.swift */,
 				C235802D2A47B8290077FD73 /* ListViewModel.swift */,
 			);
 			path = List;
@@ -186,6 +191,15 @@
 				A283497B21A7ECC500C5CA71 /* NetworkService.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		C2D73C912A783056008E3CE9 /* Avatar Cell */ = {
+			isa = PBXGroup;
+			children = (
+				A283497721A5D35300C5CA71 /* AvatarCell.swift */,
+				C2D73C8F2A782428008E3CE9 /* AvatarCellViewModel.swift */,
+			);
+			path = "Avatar Cell";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +311,7 @@
 			files = (
 				A283495421A5CDF300C5CA71 /* LaunchScreen.storyboard in Resources */,
 				A283495121A5CDF300C5CA71 /* Assets.xcassets in Resources */,
+				C2CEEC222A7921A200DBF5EB /* README.md in Resources */,
 				A283494F21A5CDF100C5CA71 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +343,7 @@
 				A283497C21A7ECC500C5CA71 /* NetworkService.swift in Sources */,
 				657CD91224C735DD0050EF8A /* Repo.swift in Sources */,
 				D3C0572A2A0EA887009F6706 /* Constants.swift in Sources */,
+				C2D73C902A782428008E3CE9 /* AvatarCellViewModel.swift in Sources */,
 				65EB85BB24C720D30004D087 /* GitUser.swift in Sources */,
 				657CD90E24C72E310050EF8A /* DetailsViewController.swift in Sources */,
 				A283494A21A5CDF100C5CA71 /* AppDelegate.swift in Sources */,
@@ -517,7 +533,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepstone.Avatars;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vivekios.Avatars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -537,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepstone.Avatars;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vivekios.Avatars;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -558,7 +574,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepstone.AvatarsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vivekios.AvatarsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -580,7 +596,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepstone.AvatarsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vivekios.AvatarsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -601,7 +617,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepstone.AvatarsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vivekios.AvatarsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -622,7 +638,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepstone.AvatarsUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vivekios.AvatarsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

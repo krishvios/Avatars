@@ -10,6 +10,8 @@ class DetailsViewController: UIViewController {
     
     var github: GitUser!
     var detailsViewModel: DetailsViewModel!
+    var networkService: NetworkService?
+    var dataCache: NSCache<NSString, AnyObject>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +22,7 @@ class DetailsViewController: UIViewController {
         usernameLabel.text = self.github.login
         githubLabel.text = "GitHub:\n\(self.github.html_url)"
         
-        self.detailsViewModel =  DetailsViewModel(github: github)
+        self.detailsViewModel =  DetailsViewModel(networkService: self.networkService!, dataCache: self.dataCache!, github: self.github)
         
         self.detailsViewModel.loadAvatar = { (image: UIImage) -> () in
             self.imageView.image = image
@@ -35,5 +37,6 @@ class DetailsViewController: UIViewController {
                 }
             }
         }
+        detailsViewModel.callFuncToGetUserData()
     }
 }
