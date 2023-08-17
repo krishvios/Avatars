@@ -21,6 +21,7 @@ class DetailsViewController: UIViewController {
     func callToViewModelForUIUpdate() {
         usernameLabel.text = self.github.login
         githubLabel.text = "GitHub:\n\(self.github.html_url)"
+        self.setup(linkLabel: self.githubLabel, text: self.github.html_url)
         
         self.detailsViewModel =  DetailsViewModel(networkService: self.networkService!, dataCache: self.dataCache!, github: self.github)
         
@@ -39,4 +40,19 @@ class DetailsViewController: UIViewController {
         }
         detailsViewModel.callFuncToGetUserData()
     }
+    
+    func setup(linkLabel: UILabel, text: String) {
+        linkLabel.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(openLink(sender:)))
+        linkLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func openLink(sender: UITapGestureRecognizer) {
+        if let openLink = URL(string: self.github.html_url) {
+            if UIApplication.shared.canOpenURL(openLink) {
+                UIApplication.shared.open(openLink, options: [:])
+            }
+        }
+    }
+    
 }

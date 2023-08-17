@@ -21,6 +21,7 @@
 		A283497821A5D35300C5CA71 /* AvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A283497721A5D35300C5CA71 /* AvatarCell.swift */; };
 		A283497C21A7ECC500C5CA71 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A283497B21A7ECC500C5CA71 /* NetworkService.swift */; };
 		A28349C221A84CA400C5CA71 /* AvatarDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28349C021A84CA400C5CA71 /* AvatarDownloader.swift */; };
+		C205596F2A8EA02B00C2E0AC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C057292A0EA887009F6706 /* Constants.swift */; };
 		C235802A2A474C720077FD73 /* AvatarDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28349C021A84CA400C5CA71 /* AvatarDownloader.swift */; };
 		C235802E2A47B8290077FD73 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C235802D2A47B8290077FD73 /* ListViewModel.swift */; };
 		C23580302A47BC360077FD73 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C235802F2A47BC360077FD73 /* DetailsViewModel.swift */; };
@@ -359,6 +360,7 @@
 			files = (
 				A283495F21A5CDF300C5CA71 /* AvatarsTests.swift in Sources */,
 				C235802A2A474C720077FD73 /* AvatarDownloader.swift in Sources */,
+				C205596F2A8EA02B00C2E0AC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

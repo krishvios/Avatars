@@ -9,8 +9,13 @@ class ListViewModel {
     
     private var networkService: NetworkServiceProtocol
     var dataCache: NSCache<NSString, AnyObject>
+    private let reloadUsersListSubject = PassthroughSubject<Result<Void, NetworkError>, Never>()
+    private var subscribers: [AnyCancellable] = []
+    let validationResult = PassthroughSubject<Void, Error>()
+
     @Published private(set) var avatarCellViewModels: [AvatarCellViewModel] = []
-    
+    @Published var isSubmitAllowed: Bool = false
+
     // MARK: Output
     var numberOfRows: Int {
         avatarCellViewModels.count
@@ -20,17 +25,10 @@ class ListViewModel {
         reloadUsersListSubject.eraseToAnyPublisher()
     }
     
-    private let reloadUsersListSubject = PassthroughSubject<Result<Void, NetworkError>, Never>()
-    
-    private var subscribers: [AnyCancellable] = []
-
     init(networkService: NetworkService, dataCache: NSCache<NSString, AnyObject>) {
         self.networkService = networkService
         self.dataCache = dataCache
     }
-    
-    @Published var isSubmitAllowed: Bool = false
-    let validationResult = PassthroughSubject<Void, Error>()
 
     func callFuncToGetListData() {
         self.networkService.get(url: Constants.githubUsersEndpoint) { [weak self] result in
