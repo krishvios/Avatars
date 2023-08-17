@@ -32,7 +32,7 @@ class DetailsViewModel {
             }
         }
         else {
-            AvatarDownloader().downloadAvatar(avatarID: "\(github.id)", size: .avatarSize) { result in
+            AvatarDownloader().downloadAvatar(avatarID: "\(github.id)", size: Constants.avatarSize) { result in
                 switch result {
                 case .success(let img):
                     self.dataCache.setObject(img, forKey: String(describing: self.github.id) as NSString)

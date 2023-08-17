@@ -30,7 +30,7 @@ class AvatarCellViewModel {
                 }
             }
             else {
-                AvatarDownloader().downloadAvatar(avatarID: idStr, size: .avatarSize) { [weak self] result in
+                AvatarDownloader().downloadAvatar(avatarID: idStr, size: Constants.avatarSize) { [weak self] result in
                     switch result {
                     case .success(let img):
                         self?.dataCache?.setObject(img, forKey: String(describing: self?.githubUser?.id) as NSString)

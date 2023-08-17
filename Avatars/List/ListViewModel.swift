@@ -33,7 +33,7 @@ class ListViewModel {
     let validationResult = PassthroughSubject<Void, Error>()
 
     func callFuncToGetListData() {
-        self.networkService.get(url: .githubUsersEndpoint) { [weak self] result in
+        self.networkService.get(url: Constants.githubUsersEndpoint) { [weak self] result in
             switch result {
             case .success(let data):
                 do {

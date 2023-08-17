@@ -102,7 +102,6 @@
 		657CD91024C7353E0050EF8A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D3C057292A0EA887009F6706 /* Constants.swift */,
 				65EB85BA24C720D30004D087 /* GitUser.swift */,
 				657CD91124C735DD0050EF8A /* Repo.swift */,
 				657CD91324C735E30050EF8A /* Gist.swift */,
@@ -134,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				C2CEEC212A7921A200DBF5EB /* README.md */,
+				D3C057292A0EA887009F6706 /* Constants.swift */,
 				C23580332A48284D0077FD73 /* Networking */,
 				C235802C2A47B81B0077FD73 /* List */,
 				C23580292A474B1A0077FD73 /* Details */,
