@@ -38,4 +38,3 @@ It is necessary to cache the image data with the github id for each and every Av
 ###For DetailsView
 
 DetailsViewController(View), DetailsViewModel(ViewModel) and {GitUser, Repo & Gist}(Models) are taken as the detailed class components.
-Here the cached image is displayed without requesting the image again. But as the remaining details are not static and the numbers may increase or decrease hence they are loaded from service at runtime.
